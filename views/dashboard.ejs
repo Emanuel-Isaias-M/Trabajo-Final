@@ -1,0 +1,53 @@
+<h1 class="dashboard-title">🌍 Dashboard de Países</h1>
+
+<div class="dashboard-container">
+  <table class="country-table">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Capital</th>
+        <th>Fronteras</th>
+        <th>Área</th>
+        <th>Población</th>
+        <th>Timezones</th>
+        <th>Creador</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% let totalArea = 0; let totalPoblacion = 0; %>
+
+      <% paises.forEach(pais => { 
+        totalArea += pais.area || 0;
+        totalPoblacion += pais.population || 0;
+      %>
+        <tr>
+          <td><%= pais.name?.common || 'Desconocido' %></td>
+          <td><%= pais.capital?.join(', ') || 'Sin capital' %></td>
+          <td><%= pais.borders?.join(', ') || 'N/A' %></td>
+          <td><%= pais.area %></td>
+          <td><%= pais.population %></td>
+          <td><%= pais.timezones?.join(', ') || 'N/A' %></td>
+          <td><%= pais.creador %></td>
+          <td class="acciones">
+            <a class="btn editar" href="/dashboard/editar/<%= pais._id %>">✏️</a>
+            <form action="/api/paises/<%= pais._id %>?_method=DELETE" method="POST" class="form-eliminar">
+              <button class="btn eliminar" type="submit" onclick="return confirm('¿Eliminar este país?')">🗑️</button>
+            </form>
+          </td>
+        </tr>
+      <% }) %>
+
+      <tr class="totales">
+        <td colspan="3">Totales:</td>
+        <td><%= totalArea %></td>
+        <td><%= totalPoblacion %></td>
+        <td colspan="3"></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+
+

@@ -1,0 +1,76 @@
+<section class="form-container">
+  <h1 class="form-title">➕ Agregar País</h1>
+
+
+
+  <form action="/api/paises" method="POST" class="form">
+
+    <label>Nombre Oficial:</label>
+    <input
+      type="text"
+      name="name[official]"
+      value="<%= datos?.['name.official'] || '' %>"
+    >
+    <% if (errores) {
+      const err = errores.find(e => e.param === 'name.official');
+      if (err) { %><span class="error"><%= err.msg %></span><% } } %>
+
+    <label>Nombre Común:</label>
+    <input
+      type="text"
+      name="name[common]"
+      value="<%= datos?.['name.common'] || '' %>"
+    >
+
+    <label>Capital:</label>
+    <input
+      type="text"
+      name="capital"
+      value="<%= datos?.capital || '' %>"
+    >
+    <% if (errores) {
+      const err = errores.find(e => e.param === 'capital');
+      if (err) { %><span class="error"><%= err.msg %></span><% } } %>
+
+    <label>Fronteras (separadas por coma, 3 letras mayúsculas):</label>
+    <input
+      type="text"
+      name="borders"
+      value="<%= datos?.borders || '' %>"
+    >
+    <% if (errores) {
+      const err = errores.find(e => e.param === 'borders');
+      if (err) { %><span class="error"><%= err.msg %></span><% } } %>
+
+    <label>Área:</label>
+    <input
+      type="number"
+      name="area"
+      value="<%= datos?.area || '' %>"
+    >
+    <% if (errores) {
+      const err = errores.find(e => e.param === 'area');
+      if (err) { %><span class="error"><%= err.msg %></span><% } } %>
+
+    <label>Población:</label>
+    <input
+      type="number"
+      name="population"
+      value="<%= datos?.population || '' %>"
+    >
+    <% if (errores) {
+      const err = errores.find(e => e.param === 'population');
+      if (err) { %><span class="error"><%= err.msg %></span><% } } %>
+
+    <label>Zonas horarias (separadas por coma):</label>
+    <input
+      type="text"
+      name="timezones"
+      value="<%= datos?.timezones || '' %>"
+    >
+
+    <button type="submit" class="btn-submit">Agregar</button>
+  </form>
+</section>
+
+
