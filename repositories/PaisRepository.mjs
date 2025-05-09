@@ -1,14 +1,18 @@
 // ✅ Importa el modelo Mongoose del país
-// Este modelo define cómo debe ser la estructura de cada país en la base de datos
 import Pais from '../models/paisModel.mjs';
 
-// ===============================
-// 📥 FUNCIÓN: Obtener todos los países
-// ===============================
-// Retorna todos los documentos de la colección 'Grupo-01' (países)
-// Se usa, por ejemplo, para listar los países en el dashboard o en la API
-export async function obtenerTodos() {
-    return await Pais.find(); // Sin filtros, devuelve todos los países
+// ✅ Obtener países filtrados por creador y área mínima
+export async function obtenerPorCreador(creador) {
+  return await Pais.find({
+    creador,
+    area: { $gte: 1 }
+  });
+}
+
+// ✅ Insertar un único país (usado al agregar desde formulario o API)
+export async function insertarUnPais(pais) {
+  const nuevoPais = new Pais(pais);
+  return await nuevoPais.save();
 }
 
 // ===============================
@@ -21,20 +25,17 @@ export async function insertarPais(paises) {
     return await Pais.insertMany(paises); // Inserta todos los documentos de una sola vez (bulk insert)
 }
 
-// ===============================
-// ✏️ FUNCIÓN: Actualizar un país por ID
-// ===============================
-// Busca un país por su ID y lo actualiza con los datos nuevos
-// `{ new: true }` asegura que se devuelva el documento actualizado, no el anterior
-export async function actualizarPais(id, nuevosDatos) {
-    return await Pais.findByIdAndUpdate(id, nuevosDatos, { new: true });
+// ✅ Actualizar un país por ID y creador (para seguridad)
+export async function actualizarPais(id, nuevosDatos, creador) {
+  return await Pais.findOneAndUpdate(
+    { _id: id, creador }, // Asegura que solo se actualicen países del creador
+    nuevosDatos,
+    { new: true } // Devuelve el país actualizado
+  );
 }
 
-// ===============================
-// ❌ FUNCIÓN: Eliminar un país por ID
-// ===============================
-// Busca y elimina un país por su ID
-export async function eliminarPais(id) {
-    return await Pais.findByIdAndDelete(id);
+// ✅ Eliminar un país por ID y creador (para seguridad)
+export async function eliminarPais(id, creador) {
+  return await Pais.findOneAndDelete({ _id: id, creador });
 }
 
