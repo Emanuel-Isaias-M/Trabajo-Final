@@ -1,13 +1,20 @@
-// ✅ Importa los servicios que contienen la lógica de negocio
-import * as PaisService from '../services/paisService.mjs';
+// ✅ Importa los servicios con alias para evitar conflictos
+import {
+  obtenerPaisesPorCreador,
+  crearPais as crearPaisService,
+  editarPais as editarPaisService,
+  eliminarPais as eliminarPaisService
+} from '../services/paisService.mjs';
+
 import * as PaisAPIService from '../services/paisAPIService.mjs';
+
 // ✅ Define el nombre del creador por defecto
 const CREADOR = 'Isaias';
 
 // 🌍 Obtener todos los países
 export async function obtenerPaises(req, res, api = false) {
   try {
-    const paises = await PaisService.obtenerPaisesPorCreador(CREADOR);
+    const paises = await obtenerPaisesPorCreador(CREADOR);
 
     if (api === true) {
       return res.json({ paises });
@@ -15,16 +22,15 @@ export async function obtenerPaises(req, res, api = false) {
 
     res.render('dashboard', { paises });
   } catch (error) {
-    console.error('Error en obtenerPaises:', error); // 👈 Esto es clave para ver el error real
+    console.error('Error en obtenerPaises:', error);
     res.status(500).json({ mensaje: 'Error al obtener países', error: error.message });
   }
 }
 
-
 // ➕ Agregar país
 export async function agregarPais(req, res) {
   try {
-    const pais = await PaisService.crearPais(req.body, CREADOR);
+    const pais = await crearPaisService(req.body, CREADOR);
 
     if (req.headers.accept !== 'application/json') {
       return res.redirect('/dashboard');
@@ -42,7 +48,7 @@ export async function agregarPais(req, res) {
 // ✏️ Editar país
 export async function editarPais(req, res) {
   try {
-    const pais = await PaisService.editarPais(req.params.id, req.body, CREADOR);
+    const pais = await editarPaisService(req.params.id, req.body, CREADOR);
 
     if (!pais) {
       return res.status(404).json({ mensaje: 'País no encontrado o no autorizado' });
@@ -64,7 +70,7 @@ export async function editarPais(req, res) {
 // ❌ Eliminar país
 export async function eliminarPais(req, res, api = false) {
   try {
-    const eliminado = await PaisService.eliminarPais(req.params.id, CREADOR);
+    const eliminado = await eliminarPaisService(req.params.id, CREADOR);
 
     if (!eliminado) {
       return res.status(404).json({ mensaje: 'País no encontrado o no autorizado' });
@@ -80,17 +86,12 @@ export async function eliminarPais(req, res, api = false) {
   }
 }
 
-
-// ===========================
 // 🌐 Obtener desde API externa
-// ===========================
 export async function obtenerYGuardarPaises(req, res) {
   try {
-    // 🔁 Ejecuta el flujo que trae países desde la API y los guarda en MongoDB
     await PaisAPIService.obtenerYGuardarPaises();
     res.redirect('/dashboard');
   } catch (error) {
     res.status(500).json({ mensaje: 'Error al obtener y guardar los países', error });
   }
 }
-
