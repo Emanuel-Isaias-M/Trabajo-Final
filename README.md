@@ -33,7 +33,7 @@ Aplicación full stack hecha con Node.js, Express y MongoDB. Permite importar pa
 
 ### ✅ Extra
 
-- `GET /importar-paises` → importa todos los países desde [restcountries.com](https://restcountries.com)
+- `GET /importar-paises` → importa todos los países desde (https://restcountries.com/v3.1/all).
 - Validaciones de campos (nombre, capital, área, población, etc.)
 
 ---
