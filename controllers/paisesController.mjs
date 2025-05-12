@@ -45,27 +45,37 @@ export async function agregarPais(req, res) {
   }
 }
 
-// ✏️ Editar país
+// ✏️ Controlador: Editar país existente
 export async function editarPais(req, res) {
   try {
+    // 🧠 Llama al servicio para procesar los datos y actualizar el país en MongoDB
+    // req.params.id = ID del país (desde la URL)
+    // req.body = datos enviados desde el formulario
+    // CREADOR = nombre del usuario que está editando
     const pais = await editarPaisService(req.params.id, req.body, CREADOR);
 
+    // ❌ Si no se encontró el país o no le pertenece al usuario, devuelve error 404
     if (!pais) {
       return res.status(404).json({ mensaje: 'País no encontrado o no autorizado' });
     }
 
+    // 🌐 Si no es una API (es un formulario HTML), redirige al dashboard
     if (req.headers.accept !== 'application/json') {
       return res.redirect('/dashboard');
     }
 
+    // ✅ Si es una API, responde con un JSON indicando éxito y devuelve el país actualizado
     return res.json({
       mensaje: 'País actualizado correctamente',
       pais
     });
+
   } catch (error) {
+    // 💥 Si ocurre un error inesperado, responde con error 500 y el mensaje
     return res.status(500).json({ mensaje: 'Error al editar país', error });
   }
 }
+
 
 // ❌ Eliminar país
 export async function eliminarPais(req, res, api = false) {
