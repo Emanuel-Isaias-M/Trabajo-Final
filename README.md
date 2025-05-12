@@ -60,27 +60,44 @@ El servidor corre en:
 
 📦 paises-app
 ├── config/
-│   └── dbConfig.mjs          # Conexión a MongoDB
+│   └── dbConfig.mjs              # Conexión a MongoDB con Mongoose
+│
 ├── controllers/
-│   └── paisesController.mjs  # Lógica principal
+│   └── paisesController.mjs      # Controladores de rutas: recibe req/res y llama a servicios
+│
 ├── models/
-│   └── paisModel.mjs         # Esquema Mongoose
+│   └── paisModel.mjs             # Esquema de Mongoose que define cómo se guarda un país
+│
 ├── public/
-│   └── css/                  # Estilos
+│   └── css/                      # Archivos estáticos como estilos
+│
+├── repositories/
+│   ├── IPaisRepository.mjs       # Interfaz abstracta (define qué métodos debe tener el repositorio)
+│   └── PaisRepository.mjs        # Clase concreta que implementa los métodos para acceder a MongoDB
+│
 ├── routes/
-│   ├── paisesRoutes.mjs      # Rutas para vistas
-│   └── apiPaisesRoutes.mjs   # Rutas para API JSON
+│   ├── paisesRoutes.mjs          # Rutas para vistas (usa controladores y renderiza EJS)
+│   └── apiPaisesRoutes.mjs       # Rutas para API REST (responde en JSON)
+│
 ├── services/
-│   └── paisAPIService.mjs    # Fetch de países externos
+│   ├── paisAPIService.mjs        # Servicio que obtiene países desde una API externa
+│   └── paisService.mjs           # Lógica intermedia entre el controlador y el repositorio
+│
 ├── validation/
-│   ├── paisValidation.mjs
-│   └── manejarErroresApi.mjs
+│   ├── paisValidation.mjs        # Validaciones con express-validator (name, capital, etc.)
+│   └── manejarErroresApi.mjs     # Middleware para capturar y devolver errores de validación
+│
 ├── views/
-│   ├── layout.ejs
-│   ├── dashboard.ejs
-│   ├── add.ejs
-│   └── edit.ejs
-└── app.mjs                   # Punto de entrada
+│   ├── layout.ejs                # Plantilla base
+│   ├── dashboard.ejs             # Vista principal con listado de países
+│   ├── add.ejs                   # Formulario para agregar país
+│   └── edit.ejs                  # Formulario para editar país
+│
+├── app.mjs                       # Archivo principal de Express: monta middlewares y rutas
+├── package.json                  # Dependencias del proyecto y scripts
+├── package-lock.json             # Versión exacta de cada paquete
+└── README.md                     # Información general del proyecto
+
 
 
 
