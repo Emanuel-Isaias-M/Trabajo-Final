@@ -1,21 +1,14 @@
 <section class="form-container">
-  <h1 class="form-title">
-    <% if (datos?._id) { %>
-      ✏️ Editar País
-    <% } else { %>
-      ➕ Agregar País
-    <% } %>
-  </h1>
+<h1 class="form-title">✏️ Editar País</h1>
 
-  <form
-    action="<%= datos?._id ? `/api/paises/${datos._id}?_method=PUT` : '/api/paises' %>"
-    method="POST"
-    class="form"
-  >
-    <% if (datos?._id) { %>
-      <!-- Campo oculto solo cuando se edita -->
-      <input type="hidden" name="_method" value="PUT">
-    <% } %>
+
+<form
+  action="/api/paises/<%= datos._id %>?_method=PUT"
+  method="POST"
+  class="form"
+>
+
+
 
     <label>Nombre Oficial:</label>
     <input
@@ -81,8 +74,9 @@
       value="<%= datos?.timezones || '' %>"
     >
 
-    <button type="submit" class="btn-submit">
-      <%= datos?._id ? 'Actualizar' : 'Agregar' %>
-    </button>
+<button type="submit" class="btn-submit">
+  Actualizar
+</button>
+
   </form>
 </section>
