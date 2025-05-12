@@ -31,7 +31,7 @@
           <td><%= pais.creador %></td>
           <td class="acciones">
             <a class="btn editar" href="/dashboard/editar/<%= pais._id %>">✏️</a>
-            <form action="/api/paises/<%= pais._id %>?_method=DELETE" method="POST" class="form-eliminar">
+            <form action="/dashboard/<%= pais._id %>?_method=DELETE" method="POST" class="form-eliminar">
               <button class="btn eliminar" type="submit" onclick="return confirm('¿Eliminar este país?')">🗑️</button>
             </form>
           </td>

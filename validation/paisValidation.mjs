@@ -15,18 +15,18 @@ export const validarPais = [
   // 🔎 Valida el campo "capital"
   body('capital')
     .notEmpty().withMessage('La capital es obligatoria') // Campo requerido
-    .custom(value => { // Validador personalizado
+    .custom(value => { // Validador personalizado           // es el valor que llega desde el formulario, por ejemplo: value = "ARG,BRA,CHL"
       const capitales = value.split(','); // Divide por comas en caso de múltiples capitales
-      return capitales.every(c => c.trim().length >= 3 && c.trim().length <= 90); // Cada capital debe tener entre 3 y 90 caracteres
+      return capitales.every(c => c.trim().length >= 3 && c.trim().length <= 90); // Cada capital debe tener entre 3 y 90 caracteres        //
     }).withMessage('Cada capital debe tener entre 3 y 90 caracteres'),
 
   // 🔎 Valida el campo "borders" (fronteras con otros países)
   body('borders')
     .optional() // Este campo no es obligatorio
-    .custom(value => { // Validador personalizado
-      const fronteras = value.split(','); // Divide por comas
-      return fronteras.every(b => /^[A-Z]{3}$/.test(b.trim())); // Cada frontera debe tener exactamente 3 letras mayúsculas (ej: ARG, BRA)
-    })
+    .custom(value => { // Validador personalizado(custom permite crear una validacion personalizada )
+      const fronteras = value.split(','); // Divide por comas                 value.split(',') Convierte esa cadena en un array  ['ARG', 'BRA', 'CHL'] TRUE
+      return fronteras.every(b => /^[A-Z]{3}$/.test(b.trim())); // Cada frontera debe tener exactamente 3 letras mayúsculas (ej: ARG, BRA)  (every es un metodo de los arrays) devuelve true si todas cumplen
+    })                                            //b.trim Elimina espacios en blanco al inicio y al final de cada string (por si el usuario puso espacios como " ARG ").
     .withMessage('Cada frontera debe tener exactamente 3 letras mayúsculas'),
 
   // 🔎 Valida el campo "area"
@@ -37,7 +37,10 @@ export const validarPais = [
   // 🔎 Valida el campo "population"
   body('population')
     .notEmpty().withMessage('La población es obligatoria') // Campo obligatorio
-    .isInt({ gt: 0 }).withMessage('La población debe ser un número entero positivo'), // Debe ser un número entero > 0
+    .isInt({ gt: 0 }).withMessage('La población debe ser un número entero positivo'), // Debe ser un número entero > 0         
+    //  gt: 0 significa "greater than 0" → tiene que ser mayor a cero. Valida que el valor sea un número entero (isInt = is Integer).
+
+
 
   // 🔎 Valida el campo "timezones"
   body('timezones')

@@ -78,7 +78,7 @@ router.post('/', validarPais, manejarErroresValidacion, agregarPais);
 // ===============================
 // PUT /dashboard/:id → Edita un país que ya existe
 // Aplica las mismas validaciones que al crear
-router.put('/:id', validarPais, manejarErroresValidacion, editarPais);
+router.put('/editar/:id', validarPais, manejarErroresValidacion, editarPais);
 
 // ===============================
 // ❌ ELIMINAR UN PAÍS
